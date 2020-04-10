@@ -1,0 +1,134 @@
+<div id="sidebar-main" class="sidebar sidebar-default sidebar-separate sidebar-fixed pt-2"
+     [ngClass]="{'collapsed-sidebar': isSidebarCollapsed}">
+  <div class="sidebar-toggle-button d-none d-md-block" (click)="toggleCollapseSidebar()">
+    <i class="fa" [ngClass]="{'fa-arrow-right': isSidebarCollapsed, 'fa-arrow-left': !isSidebarCollapsed}"></i>
+  </div>
+  <div class="sidebar-content">
+    <!--    <div class="sidebar-category sidebar-default">-->
+    <!--      <div class="sidebar-user">-->
+    <!--        <div class="sidebar-content">-->
+    <!--          <h6>CRM Admin </h6>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--    <app-sidebar-menu-list></app-sidebar-menu-list>-->
+    <div class="sidebar-content">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" [routerLinkActive]="['active-link']" [routerLink]="['/dashboard/main']"
+             [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#lead-management" class="nav-link" data-toggle="collapse" data-target="#lead-management"
+             aria-expanded="true" aria-controls="lead-management">
+            <i class="fa fa-pencil" aria-hidden="false"></i>
+            <span>Lead Management</span>
+          </a>
+          <ul id="lead-management" class="flex-column collapse show">
+            <li class="nav-item">
+              <a href="#" [routerLinkActive]="['active-link']" class="nav-link"
+                 [routerLink]="['lead-management/add-lead']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Add Lead
+              </a>
+            </li>
+
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLink]="['lead-management/view-leads']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                View Leads
+              </a>
+            </li>
+<!--            <li class="nav-item">-->
+<!--              <a href="#" [routerLinkActive]="['active-link']" class="nav-link"-->
+<!--                 [routerLink]="['lead-management/pipeline']">-->
+<!--                <i class="fa fa-pencil" aria-hidden="true"></i>-->
+<!--                Pipeline-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--              <a href="#" [routerLinkActive]="['active-link']" class="nav-link"-->
+<!--                 [routerLink]="['lead-management/clouser']">-->
+<!--                <i class="fa fa-pencil" aria-hidden="true"></i>-->
+<!--                Closer-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--              <a href="#" [routerLinkActive]="['active-link']" class="nav-link"-->
+<!--                 [routerLink]="['lead-management/import-export']">-->
+<!--                <i class="fa fa-pencil" aria-hidden="true"></i>-->
+<!--                Import Export-->
+<!--              </a>-->
+<!--            </li>-->
+          </ul>
+        </li>
+        <li *ngIf="activeUser.role.code === 'sadmin'" class="nav-item">
+          <a href="#crm-master"  class="nav-link" data-toggle="collapse" role="button" aria-expanded="false"
+             aria-controls="crm-master">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <span>CRM Master</span>
+          </a>
+          <ul id="crm-master" class="flex-column collapse">
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']"
+                 [routerLink]="['crm-master/add-company']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Company
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']"
+                 [routerLink]="['crm-master/add-branch']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Branch
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']"
+                 [routerLink]="['crm-master/add-sales-model']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Sales Model
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']"
+                 [routerLink]="['crm-master/add-lead-type']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Lead Type
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']"
+                 [routerLink]="['crm-master/add-lead-source']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Lead Source
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']"
+                 [routerLink]="['crm-master/add-lead-requirement']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Lead Requirement
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']" [routerLink]="['crm-master/role']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Role
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="#" class="nav-link" [routerLinkActive]="['active-link']" [routerLink]="['crm-master/user']">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                User
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

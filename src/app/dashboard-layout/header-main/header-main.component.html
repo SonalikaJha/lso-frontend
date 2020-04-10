@@ -1,0 +1,68 @@
+<div class="header-main">
+  <div class="dropdown d-md-none">
+    <i class="fa fa-bars dropdown-toggle" id="sideBarSectionMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="sideBarSectionMenuButton">
+      <app-sidebar-menu-list></app-sidebar-menu-list>
+    </div>
+  </div>
+  <div>
+    <a href="/">
+      <img class="logo" src="assets/images/logo.png" alt="">
+    </a>
+  </div>
+  <div class="dropdown d-md-none">
+    <i class="fa fa-bars dropdown-toggle" id="userSectionMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+    <div class="dropdown-menu w-100 dropdown-menu-right" aria-labelledby="userSectionMenuButton">
+       <span class="dropdown-item" [routerLink]="['user-profile']">Profile</span> 
+      <span class="dropdown-item" (click)="logOut()">Logout</span>
+    </div>
+  </div>
+  
+  <div *ngIf="activeUser.role.code === 'sadmin'" class="link d-none d-md-block ">
+    <span class="links" [routerLink]="['user-profile']">Profile</span>
+     <span class="mx-2">|</span> 
+    <span (click)="logOut()">Logout</span>
+  </div>
+
+  <div *ngIf="activeUser.role.code !== 'sadmin'" class="link d-none d-md-block ">
+    
+    <span (click)="logOut()">Logout</span>
+  </div>
+</div>
+<!--  <nav class="navbar navbar-expand-sm">-->
+<!--    <a class="navbar-brand" href="/">-->
+<!--      <img class="logo" src="assets/images/logo.png" alt="logo">-->
+<!--    </a>-->
+<!--    <div class="dropdown">-->
+<!--      <button class="navbar-toggler" type="button" data-toggle="dropdown" data-target="#dropdownMenuButton"-->
+<!--              aria-haspopup="true" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon fa fa-bars"></span>-->
+<!--      </button>-->
+<!--      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">-->
+<!--        <span class="dropdown-item" [routerLink]="['user-profile']">Profile</span>-->
+<!--        <span class="dropdown-item" (click)="logOut()">Logout</span>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="collapse navbar-collapse" id="navbar-list-2">-->
+<!--      <ul class="flex-row-reverse navbar-nav w-100">-->
+<!--        &lt;!&ndash;      <li class="nav-item active">&ndash;&gt;-->
+<!--        &lt;!&ndash;        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>&ndash;&gt;-->
+<!--        &lt;!&ndash;      </li>&ndash;&gt;-->
+<!--        &lt;!&ndash;      <li class="nav-item">&ndash;&gt;-->
+<!--        &lt;!&ndash;        <a class="nav-link" href="#">About Us</a>&ndash;&gt;-->
+<!--        &lt;!&ndash;      </li>&ndash;&gt;-->
+<!--        &lt;!&ndash;      <li class="nav-item">&ndash;&gt;-->
+<!--        &lt;!&ndash;        <a class="nav-link" href="#">Blog</a>&ndash;&gt;-->
+<!--        &lt;!&ndash;      </li>&ndash;&gt;-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" [routerLink]="['user-profile']">Profile</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link">|</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" (click)="logOut()">Logout</a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </nav>-->

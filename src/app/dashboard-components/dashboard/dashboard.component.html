@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-row">
+      <div class="form-group col-3 ">
+        <label for="">Filter by</label>
+        <select name="" id="" [(ngModel)]="activeChartType" (change)="changeChartTypes()" class="form-control">
+
+          <option [value]="chartName" *ngFor="let chartName of chartTypes">
+            {{chartName.charAt(0).toUpperCase() + chartName.slice(1)}}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group col-3 " style="visibility: hidden">
+
+        <input [owlDateTime]="date1" [selectMode]="'range'" [owlDateTimeTrigger]="date1" [(ngModel)]="dateRange"
+          class="form-control" placeholder="Date Range" id="dRange">
+        <owl-date-time [pickerType]="'calendar'" (afterPickerClosed)="dateRangeSelected()" #date1></owl-date-time>
+      </div>
+
+      <div
+        *ngIf="activeUser.role.code ==='sadmin' || activeUser.role.code === 'badmin' || activeUser.role.code === 'stl'"
+        class="form-group col-3">
+        <label for="">Filter by user</label>
+        <select [(ngModel)]="activeUserChartType" (change)="userChart()" class="form-control">
+          <option selected value="">Select an option</option>
+          <option [value]="user.id" *ngFor="let user of users" [disabled]="!user.isActive">{{user.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-12">
+        <h6 style="align-content: center;">{{dateRangeDisplayed}}</h6>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" (window:resize)="refreshCharts($event)">
+  <div class="col-12">
+    <div class="card mb-4 ">
+      <div class="card-body">
+        <google-chart [data]="columnChart"></google-chart>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card  mb-4">
+      <div class="card-body">
+        <google-chart [data]="pieChart"></google-chart>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card  mb-4">
+      <div class="card-body">
+        <google-chart [data]="salesModelPieChart"></google-chart>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="activeUser.role.code ==='sadmin' || activeUser.role.code === 'badmin' || activeUser.role.code === 'stl'"
+  class="table-responsive">
+  <div>
+    <h5 mb-4>Follow-up Leads</h5>
+  </div>
+  <table id="dataTable" class="table table-striped table-bordered table-responsive">
+    <thead>
+      <tr>
+        <th>Status</th>
+
+        <th>Created Date</th>
+        <th>Created By</th>
+        <th>Sales Model</th>
+        <th>Client Name</th>
+        <th>Client Mobile</th>
+        <!-- <th>Client Email Id</th> -->
+
+        <th>Business Type</th>
+
+        <th>Follow Up</th>
+
+
+        <th>View Lead</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let lead of leads">
+        <!--                Status-->
+        <td>
+          <button class="btn" [ngClass]="{
+                  'btn-secondary': checkLeadStatus(lead) === 'MIS',
+                  'btn-warning': checkLeadStatus(lead) === 'Pipeline',
+                  'btn-success': checkLeadStatus(lead) === 'Closure'
+                  }">
+            {{checkLeadStatus(lead)}}
+          </button>
+        </td>
+
+
+        <td>{{getFormattedDate(lead.createdAt)}}</td>
+
+        <!-- <td>{{checkLeadStatus(lead) === 'MIS' ? getFormattedDate(lead.date) : '-'}}</td>
+          <td>{{checkLeadStatus(lead) === 'Pipeline' ? getFormattedDate(lead.pipelineDate) : '-'}}</td>
+          <td>{{checkLeadStatus(lead) === 'Closure' ? getFormattedDate(lead.Clouserdate) : '-'}}</td>
+         -->
+
+         <td>{{lead.createdBy.name}}</td>
+         <td>
+          <p *ngFor="let l of lead.salesModelId">{{l.name}}</p>
+        </td>
+        <!--                Client Name-->
+        <td>{{lead.name}}</td>
+        <!--                Client Mobile-->
+
+        <td>
+          <p *ngFor="let mobile of lead.mobile">{{mobile}}</p>
+        </td>
+        <!--                Client Email Id-->
+       
+        <td>{{lead.businessType}}</td>
+
+        <!--                Follow Up-->
+        <td>
+          <p *ngFor="let followUp of lead.followupDate">{{getFormattedDate(followUp.date) +","}}
+          </p>
+        </td>
+        <td>
+          <a class="link" [routerLink]="'/dashboard/lead-management/view-lead/' + lead._id">VIEW LEAD</a>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+

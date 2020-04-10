@@ -1,0 +1,26 @@
+thead {
+  font-size: 13px;
+  tr {
+    th:first-child {
+      width: 80px;
+    }
+  }
+}
+.text-secondary {
+  font-size: 12px;
+}
+tbody {
+  font-size: 13px;
+  .description {
+    white-space: initial !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    padding: 0 5px !important;
+  }
+  .actions {
+    cursor: pointer;
+  }
+}

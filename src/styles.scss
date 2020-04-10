@@ -1,0 +1,161 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+$theme-color: red;
+$green-color: #71BF44;
+html, body {
+  height: 100%;
+  font-size: 14px;
+  color: #192038;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.card-shadow {
+  box-shadow: 0 0 8px rgba(44,51,73,.2);
+}
+.form-group {
+  label {
+    font-size: 14px;
+    color: #6e6e6e;
+  }
+  textarea {
+    resize: none;
+    min-height: 100px;
+  }
+}
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #edf1f7;
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+  color: #192038;
+  font-family: Open Sans,sans-serif;
+  font-size: .9375rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+//* {
+//  overflow: auto !important;
+//  &::-webkit-scrollbar {
+//    width: 3px;
+//    height: 3px;
+//  }
+//
+//  &::-webkit-scrollbar-track {
+//    background: #cccccc;
+//  }
+//
+//  &::-webkit-scrollbar-thumb {
+//    background-color: fade($theme-color, 50%);
+//  }
+//
+//  &::-webkit-scrollbar-thumb:hover {
+//    background-color: fade($theme-color, 80%);
+//  }
+//}
+tbody {
+  font-size: 13px;
+  .description {
+    white-space: initial !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden !important; min-width: 100px;
+    text-overflow: ellipsis !important;
+    padding: 0 5px !important;
+  }
+  .actions {
+    min-width: 100px;
+    cursor: pointer;
+  }
+}
+
+
+// Custom switch
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ff1a1a;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  top: 3px;
+  height: 14px;
+  width: 14px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: $green-color;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px $green-color;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+//.dt-buttons {
+//  .dt-button {
+//    background-color: $green-color;
+//    border: none;
+//    color: white;
+//    padding: 5px 15px;
+//    text-align: center;
+//    text-decoration: none;
+//    display: inline-block;
+//    font-size: 13px;
+//    cursor: pointer;
+//  }
+//}
+.btn-success {
+  background-color: $green-color;
+  border-color: darken($green-color, 5%);
+  &:hover, &:focus, &:active {
+    background-color: darken($green-color, 10%);
+    border-color: darken($green-color, 15%);
+  }
+}
+.btn-success, .btn-secondary, .btn-danger, .btn-warning {
+  height: 40px;
+  padding: 10px;
+  line-height: 0;
+  min-width: 70px;
+  color: #fff;
+}

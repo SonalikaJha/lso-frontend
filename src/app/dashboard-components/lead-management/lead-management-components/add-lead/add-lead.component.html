@@ -1,0 +1,800 @@
+<div class="add-lead-main">
+  <button *ngIf="currentRouteType === 'view-lead'" class="btn btn-dark btn-sm"
+    onclick="window.history.back()">Back</button>
+  <form [formGroup]="addLeadFormData" (ngSubmit)="onSubmit('save')">
+    <legend>{{currentRouteLabel}}
+      <button class="link" [routerLink]="'/dashboard/lead-management/'+ 'lead' + '/' + id"
+        *ngIf="currentRouteType === 'view-lead'" class="btn btn-primary m-3 bg ">Edit</button>
+    </legend>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card card-shadow">
+          <div class="card-header">
+            <h6 class="mb-0">Team Information </h6>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-6" *ngIf="currentRouteType === 'add-lead'">
+                <label>Lead Date</label>
+                <input [owlDateTime]="date" [owlDateTimeTrigger]="date" class="form-control" formControlName="date"
+                  placeholder="Date">
+                <owl-date-time [pickerType]="'calendar'" #date></owl-date-time>
+                <div *ngIf="submitted && f.date.errors" class="text-danger">
+                  <div *ngIf="f.date.errors.required">Date is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Branch</label>
+                <select name="" class="form-control" formControlName="branchId" (change)="changeBranch($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f.branchId.errors }">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.branch" [value]="item.id">{{ item.name }}</option>
+                </select>
+                <div *ngIf="submitted && f.branchId.errors" class="text-danger">
+                  <div *ngIf="f.branchId.errors.required">Branch Name is required</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Source</label>
+                <select name="" class="form-control" formControlName="leadSourceId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.leadSource" [value]="item.id">{{ item.name }}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>DST/CPT</label>
+                <select name="" class="form-control" formControlName="leadTypeId"
+                  (change)="changeDealerOptionsVisibility($event)">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.leadType" [value]="item.id">{{ item.name }}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Sales Model</label>
+                <ng-multiselect-dropdown *ngIf="currentRouteType !== 'view-lead'" [placeholder]="'Select Sales Model'"
+                  [data]="data.salesModel" [(ngModel)]="selectedSalesModel" [ngModelOptions]="{standalone: true}"
+                  [settings]="salesModelSelectDropdown">
+                </ng-multiselect-dropdown>
+                <ng-multiselect-dropdown *ngIf="currentRouteType === 'view-lead'" [placeholder]="'Select Sales Model'"
+                  [data]="data.salesModel" [(ngModel)]="selectedSalesModel" [ngModelOptions]="{standalone: true}"
+                  [settings]="salesModelSelectDropdown" [disabled]="true">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Branch Head</label>
+                <select name="" class="form-control" formControlName="badminId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.badmin" [value]="item.id" [disabled]="!item.isActive">{{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>STL-Sales Team Leader</label>
+                <select name="" class="form-control" formControlName="stlId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.stl" [value]="item.id" [disabled]="!item.isActive">{{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>SM-Sales Manager</label>
+                <select name="" class="form-control" formControlName="smId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.sm" [value]="item.id" [disabled]="!item.isActive">{{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>ST/TC-Telle Caller</label>
+                <select name="" class="form-control" formControlName="stTcId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.stTc" [value]="item.id" [disabled]="!item.isActive">{{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>DTL-Design Team Leader</label>
+                <select name="" class="form-control" formControlName="dtlId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.dtl" [value]="item.id" [disabled]="!item.isActive">{{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>DA-Design Assistant</label>
+                <select name="" class="form-control" formControlName="daId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.da" [value]="item.id" [disabled]="!item.isActive">{{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>PMC-Project management head</label>
+                <select name="" class="form-control" formControlName="pmcId">
+                  <option value="">Select an option</option>
+                  <option *ngFor="let item of data.pmc" [value]="item.id" [disabled]="!item.isActive">{{ item.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-4 card-shadow ">
+          <div class="card-header">
+            <h6 class="mb-0">Customer Details </h6>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Name</label>
+                <input onblur="this.value=jQuery.trim(this.value)" type="text"
+                  [ngClass]="{ 'is-invalid': submitted && f.name.errors }" class="form-control" formControlName="name">
+                <div *ngIf="submitted && f.name.errors" class="text-danger">
+                  <div *ngIf="f.name.errors.required">Client Name is required</div>
+                  <div *ngIf="f.name.errors.pattern">Client Name is invalid</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Landline</label>
+                <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                  formControlName="landline">
+              </div>
+              <div class="form-group col-md-8 position-relative">
+                <label>Email ID </label>
+                <div class="form-group position-relative" formArrayName="email"
+                  *ngFor="let x of f.email?.value; let i = index; trackBy:trackByFn">
+                  <ng-container [formGroupName]="i">
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text"
+                      *ngIf="currentRouteType !== 'view-lead'" class="form-control" formControlName='email' />
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text"
+                      *ngIf="currentRouteType === 'view-lead'" class="form-control" formControlName='email' disabled />
+                    <i class="fa fa-minus position-absolute" style="right: -30px; top: 30%; font-size: 18px;"
+                      *ngIf="editable && i === f.email?.value.length - 1 && i !== 0" (click)="removeEmailAt(i)"></i>
+                    <i class="fa fa-plus position-absolute" style="right: -60px; top: 30%; font-size: 18px;"
+                      *ngIf="editable && i === f.email?.value.length - 1" (click)="addNewEmail()"></i>
+                  </ng-container>
+                  <div *ngIf="submitted && f.email.controls[i].controls.email.errors" class="text-danger">
+                    <div *ngIf="f.email.controls[i].controls.email.errors.pattern">Email is invalid</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-8 position-relative">
+                <label>Mobile </label>
+                <div class="form-group position-relative" formArrayName="mobile"
+                  *ngFor="let x of f.mobile?.value; let i = index; trackBy:trackByFn">
+                  <ng-container [formGroupName]="i">
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text"
+                      *ngIf="currentRouteType !== 'view-lead'" class="form-control" formControlName='number' />
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text"
+                      *ngIf="currentRouteType === 'view-lead'" class="form-control" formControlName='number' disabled />
+                    <i class="fa fa-minus position-absolute" style="right: -30px; top: 30%; font-size: 18px;"
+                      *ngIf="editable && i === f.mobile?.value.length - 1 && i !== 0" (click)="removeMobileAt(i)"></i>
+                    <i class="fa fa-plus position-absolute" style="right: -60px; top: 30%; font-size: 18px;"
+                      *ngIf="editable && i === f.mobile?.value.length - 1" (click)="addNewMobile()"></i>
+                  </ng-container>
+                  <div *ngIf="submitted && f.mobile.controls[i].controls.number.errors" class="text-danger">
+                    <div *ngIf="f.mobile.controls[i].controls.number.errors.required">Mobile is required</div>
+                    <div *ngIf="f.mobile.controls[i].controls.number.errors.pattern">Mobile is invalid</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-8">
+                <label>Business Type</label>
+                <select name="" class="form-control" formControlName="businessType">
+                  <option selected disabled value="">Select an option</option>
+                  <option> property owner </option>
+                  <option> property buyer </option>
+                  <option> property leese/tenant </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-14" *ngIf="areDealerOptionsVisible">
+          <div class="card mt-4 card-shadow">
+            <div class="card-header">
+              <h6 class="mb-0">Dealer Details</h6>
+            </div>
+            <div class="card-body">
+              <div class="form-row" formGroupName="dealer">
+                <!-- dealer details -->
+                <div class="form-group col-md-6">
+                  <label>Dealer Name</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="name">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Dealer Mobile</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="mobile">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Dealer Email</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="email">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Dealer Company Name</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="companyName">
+                </div>
+                <!-- dealer details end -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-14" *ngIf="areFMCOptionsVisible">
+          <div class="card mt-4 card-shadow">
+            <div class="card-header">
+              <h6 class="mb-0">FMC Details</h6>
+            </div>
+            <div class="card-body">
+              <div class="form-row" formGroupName="fmc">
+                <!-- dealer details -->
+                <div class="form-group col-md-6">
+                  <label>FMC Name</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="name">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>FMC Mobile</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="mobile">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>FMC Email</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="email">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>FMC Company Name</label>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                    formControlName="companyName">
+                </div>
+                <!-- dealer details end -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-shadow mb-4 mt-4">
+          <div class="card-header">
+            <h6 class="">Project Requirement</h6>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Country</label>
+                <select name="" class="form-control" formControlName="country">
+                  <option selected disabled value="">Select an option</option>
+                  <option> India </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>State</label>
+                <select name="" *ngIf="currentRouteType !== 'view-lead'" class="form-control"
+                  (change)="selectState($event)" [value]='state?._id || ""'>
+                  <option disabled value="">Select an option</option>
+                  <ng-container *ngIf="country">
+                    <option [selected]="item.name === 'Haryana'" *ngFor="let item of country.states" [value]="item._id">
+                      {{ item.name }}</option>
+                  </ng-container>
+                </select>
+                <select name="" *ngIf="currentRouteType === 'view-lead'" class="form-control"
+                  (change)="selectState($event)" [value]='state?._id || ""' disabled>
+                  <option disabled value="">Select an option</option>
+                  <ng-container *ngIf="country">
+                    <option *ngFor="let item of country.states" [value]="item._id">{{ item.name }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>City</label>
+                <select name="" class="form-control" formControlName="cityId">
+                  <option selected disabled value="">Select an option</option>
+                  <ng-container *ngIf="state">
+                    <option *ngFor="let item of state.cities" [value]="item._id">{{ item.name }}</option>
+                  </ng-container>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Sector</label>
+                <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                  formControlName="sector">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Locality</label>
+                <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                  formControlName="location">
+              </div>
+              <div class="col-md-12">
+                <!-- <h6 class="">Inventory Details :</h6> -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Project</label>
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                      formControlName="project">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Tower No</label>
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                      formControlName="towerNo">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Unit No</label>
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                      formControlName="unitNo">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Floor</label>
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                      formControlName="floor">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Carpet Area</label>
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                      formControlName="carpetArea">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Super Area</label>
+                    <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                      formControlName="superArea">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Budget</label>
+                    <select name="two" class="form-control" formControlName="budgetType">
+                      <option value="-1" selected disabled value="">Select an option</option>
+                      <option value="fv"> Furnishing Value</option>
+                      <option value="bv">Buying Value</option>
+                      <option value="sv">Sale Value</option>
+                      <option value="lv">Lease Value</option>
+                      <option value="lsonb">LSO NB Value</option>
+                      <option value="pcwow">Project Consultation WOW</option>
+                      <option value="brkrg">Brokerage</option>
+
+                    </select>
+                    <input type="textbox" name="oth" formControlName="budget" class="form-control"
+                      *ngIf="budgetType && budgetType !== '-1'" style="margin-top: 5px;" />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Requirement</label>
+                    <select name="" class="form-control" formControlName="leadRequirementId">
+                      <option selected disabled value="">Select an option</option>
+                      <option *ngFor="let item of data.leadRequirement" [value]="item.id">{{ item.name }}</option>
+                    </select>
+                     </div>
+                 
+                  <div class="form-group col-md-6">
+                    <label>Status</label>
+                    <select name="" class="form-control" formControlName="status">
+                      <option selected disabled value="">Select an option</option>
+                      <option> Bare Shell</option>
+                      <option> Furnished</option>
+                      <option> Semi Furnished</option>
+                      <option> Built To Suit</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label>Remarks</label>
+                    <textarea class="form-control" formControlName="remarks"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-14">
+          <div class="card  card-shadow">
+            <div class="card-header">
+              <h6 class="mb-0">Brokerage</h6>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <select name="one" class="form-control" formControlName="projectFeeType">
+                    <option value="" selected disabled value="-1">Select an option</option>
+                    <option value="brokerage-in">Brokerage - Incoming</option>
+                    <option value="brokerage-out">Brokerage - Outgoing</option>
+                    <option value="-1">Brokerage - Zero</option>
+                  </select>
+                  <input onblur="this.value=jQuery.trim(this.value)" type="textbox" name="other"
+                    formControlName="projectFee" *ngIf="brokerageType && brokerageType !== '-1'"
+                    style="margin-top: 5px;" class="form-control" />
+                </div>
+                <div class="form-group col-md-12">
+                  <label>Remarks</label>
+                  <textarea class="form-control" formControlName="projectFeeRemarks"></textarea>
+                </div>
+                <!-- FEE details end -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-14 mt-4" *ngIf="currentRouteType !== 'add-lead'">
+          <div class="card card-shadow ">
+            <div class="card-header">
+              <h6 class="mb-0">Meeting </h6>
+            </div>
+            <div position-relative formArrayName="meetings">
+              <div class="card-body">
+                <div class="form-row position-relative"
+                  *ngFor="let meet of f.meetings?.value; let i = index; trackBy:trackByFn">
+                  <ng-container [formGroupName]="i">
+                    <div class="form-group col-md-12">
+                      <label>Meeting Done By</label>
+                      <ng-multiselect-dropdown *ngIf="currentRouteType !== 'view-lead'" [placeholder]="'Select Person'"
+                        [data]="data.all" [(ngModel)]="selectedMeetingsModel[i]" [ngModelOptions]="{standalone: true}"
+                        [settings]="salesModelSelectDropdown">
+                      </ng-multiselect-dropdown>
+                    </div>
+
+                    <div class="form-group col-md-12 mb-5">
+                      <label>Remarks</label>
+                      <textarea *ngIf="currentRouteType === 'closure'" class="form-control"
+                        formControlName="remarks"></textarea>
+                      <textarea *ngIf="currentRouteType === 'pipeline'" class="form-control"
+                        formControlName="remarks"></textarea>
+                      <textarea *ngIf="currentRouteType === 'lead'" class="form-control"
+                        formControlName="remarks"></textarea>
+                      <textarea *ngIf="currentRouteType === 'view-lead'" class="form-control" formControlName="remarks"
+                        disabled></textarea>
+                    </div>
+                    <i class="fa fa-minus position-absolute" style="right: 30px; bottom: 10px; font-size: 18px;"
+                      *ngIf="editable && 0 !== f.meetings?.value.length - 1" (click)="removeMeetingAt(i)"></i>
+                    <i class="fa fa-plus position-absolute" style="right: 10px; bottom: 10px; font-size: 18px;"
+                      *ngIf="editable && i === f.meetings?.value.length - 1" (click)="addNewMeeting()"></i>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="lead-extra-info col-md-6"> -->
+      <div class="col-md-6">
+        <div class="card card-shadow ">
+          <div class="card-header">
+            <h6 class="mb-0">Status Remarks</h6>
+          </div>
+          <!-- <div class="demo" style="overflow-y: scroll"> -->
+          <div class="card-body ">
+            <div class="form-row">
+
+              <div class="form-group col-md-10 position-relative">
+                <label>Followup Date</label>
+                <div class="form-group position-relative" formArrayName="followupDate"
+                  *ngFor="let x of f.followupDate?.value; let i = index; trackBy:trackByFn">
+                  <ng-container [formGroupName]="i">
+                    <!-- <input type="date" class="form-control" formControlName='date' /> -->
+                    <div class="row">
+                      <div class="col-8">
+                        <input *ngIf="currentRouteType !== 'view-lead' " [owlDateTime]="followUp"
+                          [owlDateTimeTrigger]="followUp" [min]="currentRouteType === 'add-lead' ? today : past"
+                          class="form-control w-75" placeholder="Date" [(value)]='activeDate' formControlName='date'
+                          (dateTimeChange)='setActiveDate($event)' [disabled]="editable==false">
+                        <input *ngIf="currentRouteType === 'view-lead' " [owlDateTime]="followUp"
+                          [owlDateTimeTrigger]="followUp" [min]="past" class="form-control w-75" placeholder="Date"
+                          [(value)]='activeDate' formControlName='date' (dateTimeChange)='setActiveDate($event)'
+                          [disabled]="editable==false" disabled>
+                        <owl-date-time [pickerType]="'both'" #followUp [disabled]="editable==false"></owl-date-time>
+                      </div>
+                      <div class="col-2">
+                        <label class="switch">
+                          <input *ngIf="currentRouteType !== 'view-lead' " type="checkbox" formControlName="isDone">
+                          <input *ngIf="currentRouteType === 'view-lead' " type="checkbox" formControlName="isDone"
+                            disabled>
+                          <span class="slider round"></span>
+                        </label>
+                        <span class="pl-3" style="vertical-align: text-bottom;">
+                          {{x.isDone === true ? 'Yes' : 'No'}}</span>
+                      </div>
+                      <div class="col-12">
+                        <label>Remarks</label>
+                        <input type="textbox" name="other" *ngIf="currentRouteType !== 'view-lead' "
+                          formControlName="followupRemarks" class="form-control" style="margin-top: 5px;">
+                        <input type="textbox" name="other" *ngIf="currentRouteType === 'view-lead' "
+                          formControlName="followupRemarks" class="form-control" style="margin-top: 5px;" disabled>
+                      </div>
+
+                    </div>
+                    <i class="fa fa-minus position-absolute" style="right: -30px; top: 30%; font-size: 18px;"
+                      *ngIf=" editable && i === f.followupDate?.value.length - 1 && i !== 0"
+                      (click)="removeFollowupDateAt(i)"></i>
+                    <i class="fa fa-plus position-absolute" style="right: -60px; top: 30%; font-size: 18px;"
+                      *ngIf=" editable && i === f.followupDate?.value.length - 1" (click)="addNewFollowupDate()"></i>
+                  </ng-container>
+                  <div *ngIf="submitted && f.followupDate.controls[i].controls.date.errors" class="text-danger">
+                    <div *ngIf="f.followupDate.controls[i].controls.date.errors.required">Followup Date is required
+                    </div>
+                    <div *ngIf="f.followupDate.controls[i].controls.date.errors.followupDate">Followup Date is invalid
+                    </div>
+                    <div *ngIf="f.followupDate.controls[i].controls.date.errors.pattern">Followup Date is invalid
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-12">
+                <label>Status</label>
+                <input onblur="this.value=jQuery.trim(this.value)" type="text" class="form-control"
+                  formControlName="status">
+               </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Welcome Call </label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="welcomeCall">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.welcomeCall.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Welcome Text </label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="welcomeText">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.welcomeText.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Welcome Mail </label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="welcomeMail">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.welcomeMail.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Test Fitout</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="testFitout">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.testFitout.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>BOQ</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="boq">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.boq.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Site Visit</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="siteVisit">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.siteVisit.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Meeting Done</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="meeting">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.meeting.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Option</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="option">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.option.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Agreement</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="agreement">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.agreement.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Whatsapp Group-LEAD</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="whatsappGroupLead">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.whatsappGroupLead.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <!-- <div class="form-group col-md-12" *ngIf="activeOptions.whatsappGroup"> -->
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Whatsapp Group-PMC</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="whatsappGroupPMC">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.whatsappGroupPMC.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <!-- <div class="form-group col-md-12" *ngIf="activeOptions.whatsappGroup"> -->
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Whatsapp Group-OWNER</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="whatsappGroupOwner">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.whatsappGroupOwner.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <!-- <div class="form-group col-md-12" *ngIf="activeOptions.whatsappGroup"> -->
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Whatsapp Group-TENANT</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="whatsappGroupTenant">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.whatsappGroupTenant.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <!-- <div class="form-group col-md-12" *ngIf="activeOptions.whatsappGroup"> -->
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Final Layout</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="finalLayout">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.finalLayout.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <!-- <div class="form-group col-md-12" *ngIf="activeOptions.designProposal"> -->
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>Design Proposal</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="designProposal">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.designProposal.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+
+                <div class="row">
+                  <div class="col-6">
+                    <label class='mr-2'>LOI</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="loi">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.loi.value === true ? 'Yes' : 'No'}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-12">
+                <div class="row">
+                  <div class="col-6">
+                    <label for='' class="mr-2">Status</label>
+                  </div>
+                  <div class="col-6">
+                    <label class="switch">
+                      <input type="checkbox" formControlName="isActive">
+                      <span class="slider round"></span>
+                    </label>
+                    <span class="pl-3" style="vertical-align: text-bottom;">
+                      {{f.isActive.value === true ? 'Active' : 'Inactive'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+        <button *ngIf="editable" class="btn btn-success m-3 bg btn-lg">Save</button>
+        <button *ngIf="editable" class="btn btn-secondary m-3 bg btn-lg" type="button"
+          (click)="onReset()">Reset</button>
+
+        <button class="btnc  m-3 bg btn-lg" *ngIf="currentRouteType !== 'closure' && editable "
+          (click)="onSubmit('closure')" type="button">Closure </button>
+        <button class="btnp  m-3 bg btn-lg" *ngIf="currentRouteType !== 'pipeline' && editable "
+          (click)="onSubmit('pipeline')" type="button">Pipeline</button>
+
+      </div>
+    </div>
+  </form>
+</div>

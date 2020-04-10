@@ -1,0 +1,22 @@
+.user-profile-main {
+    form {
+        &:not(.editing) {
+            .form-control {
+                border-color: transparent;
+                &:disabled {
+                    background-color: white;
+                }
+            }
+        }
+
+        &.editing {
+            .form-control {
+                border-color: #ced4da;
+            }
+        }
+
+        td {
+            vertical-align: middle;
+        }
+    }
+}

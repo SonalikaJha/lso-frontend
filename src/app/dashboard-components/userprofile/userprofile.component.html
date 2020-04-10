@@ -1,0 +1,99 @@
+<div class="user-profile-main">
+  <form [formGroup]="formData" (ngSubmit)="onSubmit()" [ngClass]="{editing: editingData}">
+    <legend>User Profile</legend>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="card card-shadow ">
+          <div class="card-header">
+            <h6 class="mb-0">User Details</h6>
+          </div>
+          <div class="card-body">
+            <table class="table table-borderless">
+              <tbody>
+                <tr>
+                  <td>Name</td>
+                  <td>
+                    <input placeholder="Name" type="text" class="form-control" formControlName="name">
+                    <div *ngIf="submitted && f.name.errors" class="text-danger">
+                      Please check this field
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>
+                    <input placeholder="email" type="text" class="form-control" disabled
+                      value="{{ userProfile?.email || '' }}">
+                  </td>
+                </tr>
+                <tr>
+                  <td>Mobile</td>
+                  <td>
+                    <input placeholder="Mobile" type="text" class="form-control" formControlName="mobile">
+                    <div *ngIf="submitted && f.mobile.errors" class="text-danger">
+                      Please check this field
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Company</td>
+                  <td>
+                    <input placeholder="Company" type="text" class="form-control" disabled
+                      value="{{ userProfile?.company || '' }}">
+                  </td>
+                </tr>
+                <tr>
+                  <td>Role</td>
+                  <td>
+                    <input placeholder="Role" type="text" class="form-control" disabled
+                      value="{{ userProfile?.role.name || '' }}">
+                  </td>
+                </tr>
+                <tr>
+                  <td>Branch</td>
+                  <td>
+                    <input placeholder="Branch" type="text" class="form-control" disabled
+                      value="{{ userProfile?.branch || '' }}">
+                  </td>
+                </tr>
+                <tr *ngIf="editingData">
+                  <td>Old Password</td>
+                  <td>
+                    <input placeholder="Old Password" type="password" class="form-control" formControlName="old_password">
+                    <div *ngIf="submitted && f.old_password.errors" class="text-danger">
+                      Please check this field
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="editingData">
+                  <td>New Password</td>
+                  <td>
+                    <input placeholder="New Password" type="password" class="form-control" formControlName="new_password">
+                    <div *ngIf="submitted && f.new_password.errors" class="text-danger">
+                      Please check this field
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="editingData">
+                  <td>New Password Confirmation</td>
+                  <td>
+                    <input placeholder="New Password Confirmation" type="password" class="form-control" formControlName="new_password_confirmation">
+                    <div *ngIf="submitted && f.new_password_confirmation.errors" class="text-danger">
+                      Please check this field
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="mt-2">
+          <button class="btn m-2 bg" type="button" (click)="editingData = !editingData"
+            [ngClass]="{'btn-primary': !editingData, 'btn-danger': editingData}">{{ editingData ? 'Cancel' : 'Edit' }}</button>
+          <button class="btn btn-success m-2 bg" *ngIf="editingData" type="submit">Save</button>
+          <button class="btn btn-secondary m-2 bg" *ngIf="editingData" type="button" (click)="onReset()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

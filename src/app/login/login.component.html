@@ -1,0 +1,27 @@
+<div class="login-page">
+  <div class="form">
+<!--    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">-->
+<!--      <input type="text" placeholder="name"/>-->
+<!--      <input type="password" placeholder="password"/>-->
+<!--      <input type="text" placeholder="email address"/>-->
+<!--      <button>create</button>-->
+<!--      <p class="message">Already registered ? <a href="#">Sign In</a></p>-->
+<!--    </form>-->
+    <img class="logo" src="assets/images/logo.png" alt="">
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()">
+      <input type="text" formControlName="email" class="form-control"
+             [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Email"/>
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback py-1">
+        <div *ngIf="f.email.errors.required">Email is required</div>
+        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+      </div>
+      <input type="password" formControlName="password" class="form-control" placeholder="password"
+             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback py-1">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+      <button [innerHTML]="loginButtonText"></button>
+<!--      <p class="message">Not registered? <a href="#">Create an account</a></p>-->
+    </form>
+  </div>
+</div>

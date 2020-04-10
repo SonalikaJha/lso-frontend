@@ -1,0 +1,30 @@
+<div class="row" id="importExportContainer">
+    <div class="col-md-4">
+        <div class="card card-shadow m-2">
+            <div class="card-header">
+                Quick Export
+            </div>
+            <div class="card-body text-center">
+                <div class="form-group">
+                    <a (click)="export()" href="JavaScript:void(0)" class="btn btn-info">Export</a>
+                </div>
+                <div class="form-group" *ngIf="isDownloadReady">
+                    <a (click)="download()" href="JavaScript:void(0)" class="btn btn-success">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-lg-4">
+        <div class="card card-shadow m-2">
+            <div class="card-header">
+                Quick Import
+            </div>
+            <div class="card-body text-center">
+                <form [formGroup]='formData' (onsubmit)='submit()'>
+                    <input type="file" formControlName="file" id="" class="form-control">
+                    <button type="submit" (click)="submit()" class="btn btn-info">Import</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

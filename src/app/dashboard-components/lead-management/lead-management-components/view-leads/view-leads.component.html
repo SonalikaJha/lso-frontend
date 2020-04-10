@@ -1,0 +1,265 @@
+<div class="view-lead-main">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card my-2 card-shadow p-0">
+        <div class="card-header font-weight-bold">View Lead</div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="">Filter by Date</label>
+              <div class="form-row">
+                <div class="form-group col-3 ">
+                  <input [owlDateTime]="date1" [selectMode]="'range'" [owlDateTimeTrigger]="date1"
+                    [(ngModel)]="dateRange" class="form-control" placeholder="Date Range">
+                  <owl-date-time [pickerType]="'calendar'" #date1></owl-date-time>
+                </div>
+                <div class="form-group col">
+                  <button (click)="filterLeadByDate()" class="btn btn-primary">Search</button>
+                  <button (click)="resetLeadList()" class="btn btn-primary mx-3">Reset</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6 text-right">
+              <a role="button" class="btn btn-primary" target="_blank" href="assets/sample_csv.csv" download>Download
+                Sample CSV</a>
+              <button (click)="this.uploadLeadCSV.click()" class="btn btn-primary ml-3"
+                [innerHTML]="importLeadButtonText"></button>
+              <div class="text-secondary mt-2" style="font-size: 13px">Only csv are supported</div>
+              <input type="file" class="d-none" #uploadLeadCSV (change)="importLeads(uploadLeadCSV)" accept=".csv">
+            </div>
+          </div>
+          <!--          <h5 class="mb-2">Filters</h5>-->
+          <hr>
+          <h6 class="mb-2">Export</h6>
+          <div class="table-responsive">
+            <table id="dataTable" class="table table-striped table-bordered table-responsive">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Created By</th>
+                  <th>Branch</th>
+                  <th>Created Date</th>
+                  <th>MIS Date</th>
+                  <th>Pipeline Date</th>
+                  <th>Closure Date</th>
+                  <th>Lead Source</th>
+                  <th>Sales Model</th>
+                  <th>Client Name</th>
+                  <th>Client Mobile</th>
+                  <th>Business Type</th>
+                  <th>City</th>
+                  <th>Sector</th>
+                  <th>Locality</th>
+                  <th>Project</th>
+                  <th>Budget Option</th>
+                  <th>Status</th>
+                  <th>Overall Status</th>
+                  <th>Follow Up</th>
+                  <th>Move To</th>
+                  <th>View Lead</th>
+                  <th>Visibility</th>
+                  <th class="text-center" style="width: 100px;">Actions</th>
+                </tr>
+              </thead>
+              <!-- <tr id="searchRow">
+                <th>Status</th>
+                <th>Created By</th>
+                <th>Branch</th>
+                <th>Created Date</th>
+                <th>MIS Date</th>
+                <th>Pipeline Date</th>
+                <th>Closure Date</th>
+                <th>Lead Source</th>
+                <th>Sales Model</th>
+                <th>Client Name</th>
+                <th>Client Mobile</th>
+                <th>Business Type</th>
+                <th>City</th>
+                <th>Sector</th>
+                <th>Locality</th>
+                <th>Project</th>
+                <th>Budget Option</th>
+                <th>Status</th>
+                <th>Overall Status</th>
+                <th>Follow Up</th>
+                <th>Move To</th>
+                <th>View Lead</th>
+                <th>Visibility</th>
+                <th class="text-center" style="width: 100px;">Actions</th>
+              </tr> -->
+              <tbody>
+                <tr *ngFor="let lead of leads">
+                  <!-- Status-->
+                  <td>
+                    <button class="btn" [ngClass]="{
+                'btn-secondary': checkLeadStatus(lead) === 'MIS',
+                'btn-warning': checkLeadStatus(lead) === 'Pipeline',
+                'btn-success': checkLeadStatus(lead) === 'Closure'
+                }">
+                      {{checkLeadStatus(lead)}}
+                    </button>
+                  </td>
+                  <td>{{lead.createdBy.name}}</td>
+                  <!-- Branch-->
+                  <td>{{lead.branchId.name}}</td>
+                  <td>{{getFormattedDate(lead.createdAt)}}</td>
+                  <!-- Date-->
+                  <td>{{checkLeadStatus(lead) === 'MIS' ? getFormattedDate(lead.date) : '-'}}</td>
+                  <td>{{checkLeadStatus(lead) === 'Pipeline' ? getFormattedDate(lead.pipelineDate) : '-'}}</td>
+                  <td>{{checkLeadStatus(lead) === 'Closure' ? getFormattedDate(lead.Clouserdate) : '-'}}</td>
+
+                  <!-- Lead Source-->
+                  <td>{{lead.leadSourceId?.name}}</td>
+
+                  <td><p *ngFor="let l of lead.salesModelId"> {{l.name}}</p></td>
+
+                  <!-- Client Name-->
+                  <td>{{lead.name}}</td>
+                  <!-- Client Mobile-->
+
+                  <td>
+                    <p *ngFor="let mobile of lead.mobile">{{mobile}}</p>
+                  </td>
+
+                  <td>{{lead.businessType}}</td>
+
+                  <!-- City -->
+                  <td>{{lead.cityName}}</td>
+                  <!-- Sector -->
+                  <td>{{lead.sector}}</td>
+                  <!-- Location-->
+                  <td>{{lead.location}}</td>
+                  <!-- project -->
+                  <td>{{lead.project}}</td>
+
+                  <!-- Budget (sq.ft.)-->
+                  <td>{{getBudgetType(lead.budgetType)}}</td>
+
+                  <td>{{lead.status}}</td>
+
+                  <td>{{lead.status}}</td>
+                  <!-- Follow Up-->
+                  <td>
+                    <p *ngFor="let followUp of lead.followupDate">{{getFormattedDate(followUp.date) + ","}}
+                      <label class="switch">
+                        <input type="checkbox" [checked]="followUp.isDone" disabled>
+                        <span class="slider round"></span>
+                      </label>
+                    </p>
+                  </td>
+                  <!-- Move To-->
+                  <td>
+                    <a class="link" [routerLink]="'/dashboard/lead-management/lead/' + lead._id"
+                      *ngIf="checkLeadStatus(lead) !== 'MIS'">MIS</a>
+                    <a class="link" [routerLink]="'/dashboard/lead-management/pipeline/' + lead._id"
+                      *ngIf="checkLeadStatus(lead) !== 'Pipeline'">PIPELINE</a>
+                    <a class="link" [routerLink]="'/dashboard/lead-management/closure/' + lead._id"
+                      *ngIf="checkLeadStatus(lead) !== 'Closure'">CLOSURE</a>
+                  </td>
+                  <td>
+                    <a class="link" [routerLink]="'/dashboard/lead-management/view-lead/' + lead._id">VIEW LEAD</a>
+                  </td>
+                  <td>
+                    <label class="switch" data-toggle="modal" (click)="activeViewLead = lead"
+                      data-target="#changeViewLeadStatus">
+                      <input type="checkbox" [checked]="lead.isActive" disabled>
+                      <span class="slider round"></span>
+                    </label>
+                    <span style="vertical-align: text-bottom;">
+                      {{lead.isActive === true ? 'Active' : 'Inactive'}}</span>
+                  </td>
+                  <!-- Actions-->
+                  <td class="align-items-center d-flex justify-content-around actions">
+                    <span *ngIf="activeUserPermissions.includes('lead.edit')">
+                      <span class="link" [routerLink]="'/dashboard/lead-management/lead/' + lead._id"
+                        *ngIf="checkLeadStatus(lead) === 'MIS'" (click)="editLeadData(viewLeadData)">Edit</span>
+                      <span class="link" [routerLink]="'/dashboard/lead-management/pipeline/' + lead._id"
+                        *ngIf="checkLeadStatus(lead) === 'Pipeline'" (click)="editLeadData(viewLeadData)">Edit</span>
+                      <span class="link" [routerLink]="'/dashboard/lead-management/closure/' + lead._id"
+                        *ngIf="checkLeadStatus(lead) === 'Closure'" (click)="editLeadData(viewLeadData)">Edit</span>
+                    </span>
+
+                    <i class="fa fa-trash text-danger" (click)="activeViewLead=lead" data-toggle="modal"
+                      data-target="#deleteLeadModal"></i>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Status</th>
+                  <th>Created By</th>
+                  <th>Branch</th>
+                  <th>Created Date</th>
+                  <th>MIS Date</th>
+                  <th>Pipeline Date</th>
+                  <th>Closure Date</th>
+                  <th>Lead Source</th>
+                  <th>Sales Model</th>
+                  <th>Client Name</th>
+                  <th>Client Mobile</th>
+                  <th>Business Type</th>
+                  <th>City</th>
+                  <th>Sector</th>
+                  <th>Locality</th>
+                  <th>Project</th>
+                  <th>Budget Option</th>
+                  <th>Status</th>
+                  <th>Overall Status</th>
+                  <th>Follow Up</th>
+                  <th>Move To</th>
+                  <th>View Lead</th>
+                  <th>Visibility</th>
+                  <th class="text-center" style="width: 100px;">Actions</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="deleteLeadModal" tabindex="-1" role="dialog" aria-labelledby="viewLeadModelLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewLeadModelLabel">Delete View Lead</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">Are you sure you want to <b>Delete</b> ?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="deleteLead('deleteLeadModal')">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="changeViewLeadStatus" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- <div class="modal-body">Are you sure want to change  Status ? </div> -->
+      <div class="modal-body">Are you sure want to change status
+        <!-- <b> {{activeViewLead === undefined ? '' : activeViewLead.name}} </b> status -->
+        <b> {{activeViewLead === undefined ? '' : activeViewLead.isActive === true ? 'Active' : 'Inactive' }} </b> to
+        <b> {{activeViewLead === undefined ? '' : !activeViewLead.isActive === true ? 'Active' : 'Inactive' }}</b> ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="changeViewLeadStatus('changeViewLeadStatus')">Change
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,429 @@
+<div>
+        <form [formGroup]="dwr" (ngSubmit)="onSubmit()">
+            <legend>DWR</legend>
+          <div class="row">
+            <div class="col-md-6" style="height: 80vh; overflow-y: scroll;">
+           
+              <div class="card card-shadow">
+                <div class="card-header">
+                  <h6 class="mb-0">Team Information </h6>
+                </div>
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label>Date</label>
+                      <input type="date" formControlName="date" class="form-control"
+                             [ngClass]="{ 'is-invalid': submitted && f.date.errors }"/>
+                      <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                        <div *ngIf="f.date.errors.required">Date is required</div>
+                        <div *ngIf="f.date.errors.pattern">Date is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Branch</label>
+                      <select name="" class="form-control" formControlName="branch"
+                              [ngClass]="{ 'is-invalid': submitted && f.branch.errors }">
+                        <option value="gurugram">Gurugram</option>
+                        <option value="noida">Noida</option>
+                      </select>
+                      <div *ngIf="submitted && f.branch.errors" class="invalid-feedback">
+                        <div *ngIf="f.branch.errors.required">Branch Name is required</div>
+                        <div *ngIf="f.branch.errors.pattern">Branch Name is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Source</label>
+                      <select name="" class="form-control" formControlName="source"
+                              [ngClass]="{ 'is-invalid': submitted && f.source.errors }">
+                        <option value="gurugram">Gurugram</option>
+                        <option value="noida">Noida</option>
+                      </select>
+                      <div *ngIf="submitted && f.source.errors" class="invalid-feedback">
+                        <div *ngIf="f.source.errors.required">Source is required</div>
+                        <div *ngIf="f.source.errors.pattern">Source is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>DST/CPT</label>
+                      <select name="" class="form-control" formControlName="dstcpt"
+                              (change)="changeDealerOptionsVisibility(f.dstcpt.value)"
+                              [ngClass]="{ 'is-invalid': submitted && f.dstcpt.errors }">
+                        <option value="dst">dst</option>
+                        <option value="cpt">cpt</option>
+                      </select>
+                      <div *ngIf="submitted && f.dstcpt.errors" class="invalid-feedback">
+                        <div *ngIf="f.dstcpt.errors.required">DST/CPT is required</div>
+                        <div *ngIf="f.dstcpt.errors.pattern">DST/CPT is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Sales Model</label>
+                      <select name="" class="form-control" formControlName="salesModel"
+                              [ngClass]="{ 'is-invalid': submitted && f.salesModel.errors }">
+                        <option value="LSO-NB">LSO-NB</option>
+                        <option value="LSO-STOCK">LSO-STOCK</option>
+                        <option value="WOW-OFFICE">WOW-OFFICE</option>
+                        <option value="WOW-HOMES">WOW-HOMES</option>
+                        <option value="COM -LEASE">COM -LEASE</option>
+                        <option value="COM-RESALE">COM-RESALE</option>
+                        <option value="COM-FB">COM-FB</option>
+                        <option value="RES-RESALES">RES-RESALES</option>
+                        <option value="RES-LEASE">RES-LEASE</option>
+                        <option value="RES-FB">RES-FB</option>
+                        <option value="CONSTRUCTION">CONSTRUCTION</option>
+                      </select>
+                      <div *ngIf="submitted && f.salesModel.errors" class="invalid-feedback">
+                        <div *ngIf="f.salesModel.errors.required">Sales Model is required</div>
+                        <div *ngIf="f.salesModel.errors.pattern">Sales Model is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>STL</label>
+                      <select name="" class="form-control" formControlName="stl"
+                              [ngClass]="{ 'is-invalid': submitted && f.stl.errors }">
+                        <option value="Team Manager">Team Manager</option>
+                      </select>
+                      <div *ngIf="submitted && f.stl.errors" class="invalid-feedback">
+                        <div *ngIf="f.stl.errors.required">STL is required</div>
+                        <div *ngIf="f.stl.errors.pattern">STL is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>SM</label>
+                      <select name="" class="form-control" formControlName="sm"
+                              [ngClass]="{ 'is-invalid': submitted && f.sm.errors }">
+                        <option value="Sales Manager">Sales Manager</option>
+                      </select>
+                      <div *ngIf="submitted && f.sm.errors" class="invalid-feedback">
+                        <div *ngIf="f.sm.errors.required">SM is required</div>
+                        <div *ngIf="f.sm.errors.pattern">SM is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>ST/TC</label>
+                      <select name="" class="form-control" formControlName="sttc"
+                              [ngClass]="{ 'is-invalid': submitted && f.sttc.errors }">
+                        <option value="Sales Manager">Sales Manager</option>
+                      </select>
+                      <div *ngIf="submitted && f.sttc.errors" class="invalid-feedback">
+                        <div *ngIf="f.sttc.errors.required">ST/TC is required</div>
+                        <div *ngIf="f.sttc.errors.pattern">ST/TC is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>DTL</label>
+                      <select name="" class="form-control" formControlName="dtl"
+                              [ngClass]="{ 'is-invalid': submitted && f.dtl.errors }">
+                        <option value="Sales Manager">Sales Manager</option>
+                      </select>
+                      <div *ngIf="submitted && f.dtl.errors" class="invalid-feedback">
+                        <div *ngIf="f.dtl.errors.required">DTL is required</div>
+                        <div *ngIf="f.dtl.errors.pattern">DTL is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>DA</label>
+                      <select name="" class="form-control" formControlName="da"
+                              [ngClass]="{ 'is-invalid': submitted && f.da.errors }">
+                        <option value="Sales Manager">Sales Manager</option>
+                      </select>
+                      <div *ngIf="submitted && f.da.errors" class="invalid-feedback">
+                        <div *ngIf="f.da.errors.required">DA is required</div>
+                        <div *ngIf="f.da.errors.pattern">DA is invalid</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="card mt-4 card-shadow ">
+                <div class="card-header">
+                  <h6 class="mb-0">Customer Details </h6>
+                </div>
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label>Client Name</label>
+                      <input type="text" class="form-control"/>
+      
+                      <div *ngIf="submitted && f.clientName.errors" class="invalid-feedback">
+                        <div *ngIf="f.clientName.errors.required">Client Name is required</div>
+                        <div *ngIf="f.clientName.errors.pattern">Client Name is invalid</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Landline</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group col-md-12">
+                      <label>Email ID</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                    
+                    
+                    <div *ngFor="let x of mobile; let i = index" class="form-group col-md-8 position-relative">
+                      <label>Mobile </label>
+                      <input type="text" class="form-control w-75" [formControlName]="'mobile'+ (i + 1)"/>
+                      <i *ngIf="i + 1 === mobile.length" class="fa fa-plus position-absolute"
+                         style="top: 35px;right: 20%;font-size: 18px;"
+                         (click)="addMobile()"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-14">
+      
+                <div class="card mt-4 card-shadow">
+                  <div class="card-header">
+                    <h6 class="mb-0">Dealer Details</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-row">
+                      <div class="form-group col-md-6" >
+                        <label>Dealer Name</label>
+                        <input type="text" class="form-control" placeholder=""/>
+                      </div>
+                      <div class="form-group col-md-6" >
+                        <label>Mobile</label>
+                        <input type="text" class="form-control" placeholder=""/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="form-group col-md-14">
+      
+                    <div class="card mt-4 card-shadow">
+                      <div class="card-header">
+                        <h6 class="mb-0">Dwr</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="form-row">
+                          <div class="form-group col-md-6" >
+                            <label>Lead Name</label>
+                            <input type="text" class="form-control" placeholder=""/>
+                          </div>
+                          <div class="form-group col-md-6" >
+                            <label>Lead Id</label>
+                            <input type="text" class="form-control" placeholder=""/>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          
+
+              <div class="card card-shadow mb-5 mt-4">
+                <div class="card-header">
+                  <h6 class="">Project Requirement</h6>
+                </div>
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label>Location</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Sector</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Project</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Area (sq.ft.)</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+      
+                    <div class="form-group col-md-6">
+                      <label>Budget (sq.ft.)</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Requirement</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <div class="col-md-6 ">
+       
+              <div class="card card-shadow ">
+                <div class="card-header">
+                  <h6 class="mb-0">Status Remarks</h6>
+                </div>
+                <div class="card-body ">
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label>Status</label>
+                      <input type="text" class="form-control"/>
+                    </div>
+                    <div class="form-row col-md-12">
+                      <div class="form-group col-md-3">
+                        <label for="name">Welcome Call </label>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="container control-label">Yes
+                          <input type="radio" checked="checked" name="radio">
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="container control-label">No
+                          <input type="radio" checked="checked" name="radio">
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-row col-md-12">
+                      <div class="form-group col-md-3">
+                        <label for="name">Welcome Text/ WhatsApp </label>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="container control-label">Yes
+                          <input type="radio" checked="checked" name="radio1">
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="container control-label">No
+                          <input type="radio" checked="checked" name="radio1">
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <div class="form-row col-md-12">
+                      <div class="form-group col-md-3">
+                        <label for="name">Welcome Mail </label>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="container control-label">Yes
+                          <input type="radio" checked="checked" name="radio2">
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <label class="container control-label">No
+                          <input type="radio" checked="checked" name="radio2">
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-row col-md-12">
+                        <div class="form-group col-md-3">
+                          <label for="name">Test Fit Out </label>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label class="container control-label">Yes
+                            <input type="radio" checked="checked" name="radio3">
+                            <span class="checkmark"></span>
+                          </label>
+                        </div>
+                        <div class="form-group col-md-3">
+                          <label class="container control-label">No
+                            <input type="radio" checked="checked" name="radio3">
+                            <span class="checkmark"></span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="form-row col-md-12">
+                          <div class="form-group col-md-3">
+                            <label for="name">BOQ </label>
+                          </div>
+                          <div class="form-group col-md-3">
+                            <label class="container control-label">Yes
+                              <input type="radio" checked="checked" name="radio4">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                          <div class="form-group col-md-3">
+                            <label class="container control-label">No
+                              <input type="radio" checked="checked" name="radio4">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="form-row col-md-12">
+                            <div class="form-group col-md-3">
+                              <label for="name">Option </label>
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label class="container control-label">Yes
+                                <input type="radio" checked="checked" name="radio5">
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label class="container control-label">No
+                                <input type="radio" checked="checked" name="radio5">
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="form-row col-md-12">
+                              <div class="form-group col-md-3">
+                                <label for="name">Agreement </label>
+                              </div>
+                              <div class="form-group col-md-3">
+                                <label class="container control-label">Yes
+                                  <input type="radio" checked="checked" name="radio6">
+                                  <span class="checkmark"></span>
+                                </label>
+                              </div>
+                              <div class="form-group col-md-3">
+                                <label class="container control-label">No
+                                  <input type="radio" checked="checked" name="radio6">
+                                  <span class="checkmark"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-row col-md-12">
+                                <div class="form-group col-md-3">
+                                  <label for="name">LOI </label>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="container control-label">Yes
+                                    <input type="radio" checked="checked" name="radio7">
+                                    <span class="checkmark"></span>
+                                  </label>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label class="container control-label">No
+                                    <input type="radio" checked="checked" name="radio7">
+                                    <span class="checkmark"></span>
+                                  </label>
+                                </div>
+                              </div>
+      
+      <!--              <div class="form-group col-md-12 position-relative" style="min-height: 70px;">-->
+      <!--                <button class="btn btn-primary btn-sm mr-2 position-absolute" style="bottom: 10px;left: 5px"-->
+      <!--                        type="button" (click)="addFollowUp()">Add Follow Up-->
+      <!--                </button>-->
+      <!--              </div>-->
+                    <div *ngFor="let x of followUp; let i = index" class="form-group col-md-10 position-relative">
+                      <label>Follow Up {{i + 1}}</label>
+                      <input type="date" class="form-control w-75" [formControlName]="'followUp'+ (i + 1)"/>
+                      <i *ngIf="i + 1 === followUp.length" class="fa fa-plus position-absolute"
+                         style="top: 35px;right: 20%;font-size: 18px;"
+                         (click)="addFollowUp()"></i>
+                    </div>
+      
+                  </div>
+                </div>
+              </div>
+      
+      
+              <button class="btn btn-success m-3 bg">Save</button>
+              <button class="btn btn-secondary m-3 bg" type="button" (click)="onReset()">Reset</button>
+      
+            </div>
+          </div>
+        </form>
+      </div>
+      

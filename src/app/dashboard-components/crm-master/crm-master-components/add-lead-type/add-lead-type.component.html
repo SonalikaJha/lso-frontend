@@ -1,0 +1,137 @@
+<div class="lead-type-main">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card my-2 card-shadow p-0">
+        <div class="card-header font-weight-bold">Lead Type Master</div>
+        <div class="card-body">
+           <div class="table-responsive">
+            <table id="dataTable" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Code</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th class="text-center" style="width: 100px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let leadTypeData of leadTypeTableData">
+                  <td>{{leadTypeData.name}}</td>
+                  <td>{{leadTypeData.code}}</td>
+                  <td>{{leadTypeData.description}}</td>
+                  <td>
+                    <label class="switch" data-toggle="modal" (click)="activeLeadType = leadTypeData"
+                      data-target="#changeLeadTypeStatus">
+                      <input type="checkbox" [checked]="leadTypeData.isActive" disabled>
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
+                  <!-- <td>{{leadTypeData.isActive ? 'Active' : 'Inactive'}}</td> -->
+                  <td class="align-items-center d-flex justify-content-around actions">
+                    <span (click)="editLeadType(leadTypeData)">Edit</span>
+                    <i class="fa fa-trash text-danger" data-toggle="modal" (click)="activeLeadType = leadTypeData"
+                      data-target="#deleteLeadType"></i>
+                  </td>
+                </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="col-md-5">
+      <form [formGroup]="addLeadTypeFormData" (ngSubmit)="onSubmit()" class="card-body">
+
+        <legend>{{editingLeadType === true ? 'Update' : 'Add'}} Lead Type</legend>
+        <div class="form-group">
+          <label for="">Lead Type<span class="text-danger">*</span></label>
+          <input onblur="this.value=jQuery.trim(this.value)" type="text" formControlName="name" class="form-control" placeholder="Name"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Lead Type Name is required</div>
+            <div *ngIf="f.name.errors.pattern">Lead Type Name is invalid</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="">Code<span class="text-danger">*</span></label>
+
+          <input onblur="this.value=jQuery.trim(this.value)" type="text" oninput="this.value = this.value.toLowerCase()" formControlName="code" class="form-control"
+            placeholder="Code" [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
+
+          <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+            <div *ngIf="f.code.errors.required">Code is required</div>
+            <div *ngIf="f.code.errors.pattern">Code is invalid</div>
+            <div *ngIf="f.code.errors.uniqueCode">Code must be unique </div>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Description</label>
+          <textarea  placeholder="Description" type="text" formControlName="description" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+          <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+            <div *ngIf="f.description.errors.pattern">Description is invalid</div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="">Status</label>
+          <div class="form-row">
+            <div class="col">
+              <label class="switch">
+                <input type="checkbox" formControlName="isActive">
+                <span class="slider round"></span>
+              </label>
+              <span class="pl-3" style="vertical-align: text-bottom;">
+                {{f.isActive.value === true ? 'Active' : 'Inactive'}}</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-success mr-2">{{editingLeadType === true ? 'Update' : 'Save'}}</button>
+        <button class="btn btn-secondary mr-2" type="button" (click)="onReset()">Reset</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal fade" id="deleteLeadType" tabindex="-1" role="dialog" aria-labelledby="leadTypeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="leadTypeModalLabel">Delete Lead</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure want to delete <b> {{activeLeadType === undefined ? '' : activeLeadType.name}} </b> ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="deleteLeadType('deleteLeadType')">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="changeLeadTypeStatus" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Are you sure want to change
+        <b> {{activeLeadType === undefined ? '' : activeLeadType.name}} </b> status
+        <b> {{activeLeadType === undefined ? '' : activeLeadType.isActive=== true ? 'Active' : 'Inactive' }} </b>
+        to <b> {{activeLeadType === undefined ? '' : !activeLeadType.isActive=== true ? 'Active' : 'Inactive' }}</b> ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger"
+          (click)="changeLeadTypeStatus('changeLeadTypeStatus')">Change</button>
+      </div>
+    </div>
+  </div>
+</div>
